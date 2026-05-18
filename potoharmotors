@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>Suzuki Potohar Motors | Share Your Feedback</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', 'Poppins', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            /* using coastal retreat light background */
+            background: #DBE2DC;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+            position: relative;
+        }
+
+        /* ---------- SPLASH SCREEN (FIRST PAGE) – ABSOLUTELY UNCHANGED ---------- */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            transition: opacity 0.8s ease-out, visibility 0.2s ease;
+            backdrop-filter: blur(0px);
+        }
+
+        .splash-content {
+            text-align: center;
+            animation: splashZoom 1.2s ease-out forwards;
+        }
+
+        .splash-logo-text {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            font-family: 'Poppins', 'Inter', sans-serif;
+        }
+
+        .splash-sub {
+            font-size: 0.9rem;
+            color: #4b5563;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-top: 2px solid #dc2626;
+            display: inline-block;
+            padding-top: 8px;
+        }
+
+        @keyframes splashZoom {
+            0% {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+            40% {
+                opacity: 1;
+                transform: scale(1.02);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .splash-fadeout {
+            opacity: 0;
+            visibility: hidden;
+            transition: visibility 0s 0.6s, opacity 0.6s ease-out;
+        }
+
+        /* ---------- MAIN CARD (SECOND PAGE) – NEW GENERATION, BOLD BRAND, COLOR PALETTE ---------- */
+        .suzuki-card {
+            max-width: 580px;
+            width: 100%;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 25px 40px -12px rgba(51, 87, 101, 0.2);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.6s ease, transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .suzuki-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* header area – strictly same text, but brand is now EXTRA BOLD (as requested) */
+        .brand-header {
+            background: #ffffff;
+            padding: 2rem 2rem 0.8rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #e0e7e9;
+        }
+
+        .logo-text {
+            font-size: 1.9rem;
+            font-weight: 800;          /* BOLDER – new generation strength */
+            letter-spacing: -0.02em;
+            background: linear-gradient(120deg, #b91c1c 0%, #dc2626 80%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+            font-family: 'Poppins', 'Inter', sans-serif;
+        }
+
+        .tagline {
+            font-size: 0.85rem;
+            color: #4b5563;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            border-top: 2px solid #dc2626;
+            display: inline-block;
+            padding-top: 6px;
+        }
+
+        /* main content – applying fresh palette */
+        .main-content {
+            padding: 1.8rem 2rem 2.5rem;
+        }
+
+        /* "PUT YOUR REVIEWS" – coastal / benjamin moore fusion */
+        .reviews-headline {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .reviews-headline h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #335765;        /* deep teal from Coastal Retreat */
+            letter-spacing: -0.3px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .reviews-headline .sub {
+            color: #675647;        /* primary from benjamin moore palette */
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: #E8F0F1;   /* soft coastal accent */
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            margin-top: 10px;
+        }
+
+        /* TILES GRID – modern staggered entrance + fresh animation */
+        .tiles-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* base tile style – hidden until visible class triggers stagger animation */
+        .review-tile {
+            background: #ffffff;
+            border: 1px solid #cfdcd8;
+            border-radius: 1.5rem;
+            padding: 1.1rem 1.6rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            box-shadow: 0 6px 12px -8px rgba(51, 87, 101, 0.08);
+        }
+
+        /* staggered animation when parent card becomes visible */
+        .suzuki-card.visible .review-tile {
+            animation: tileFloatUp 0.45s ease forwards;
+        }
+
+        /* delay per tile (new generation rhythm) */
+        .suzuki-card.visible .review-tile:nth-child(1) { animation-delay: 0.05s; }
+        .suzuki-card.visible .review-tile:nth-child(2) { animation-delay: 0.12s; }
+        .suzuki-card.visible .review-tile:nth-child(3) { animation-delay: 0.19s; }
+        .suzuki-card.visible .review-tile:nth-child(4) { animation-delay: 0.26s; }
+        .suzuki-card.visible .review-tile:nth-child(5) { animation-delay: 0.33s; }
+
+        @keyframes tileFloatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* modern hover effect: lift + glow + palette colors */
+        .review-tile:hover {
+            transform: translateY(-4px) scale(1.01);
+            border-color: #74A8A4;       /* coastal retreat serene teal */
+            background: linear-gradient(145deg, #ffffff, #FCFEFD);
+            box-shadow: 0 20px 28px -14px rgba(51, 87, 101, 0.25);
+        }
+
+        /* subtle shine overlay on hover (new gen) */
+        .review-tile::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(116, 168, 164, 0.08), transparent);
+            transition: left 0.5s ease;
+            pointer-events: none;
+        }
+
+        .review-tile:hover::after {
+            left: 100%;
+        }
+
+        /* tile text – using coastal retreat primary color */
+        .tile-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #335765;          /* deep ocean from Coastal Retreat */
+            letter-spacing: -0.2px;
+            font-family: 'Poppins', 'Inter', sans-serif;
+            transition: color 0.2s ease;
+        }
+
+        .review-tile:hover .tile-name {
+            color: #6C6E36;          /* olive accent from Benjamin Moore palette */
+        }
+
+        /* arrow indicator – warm wood from coastal retreat */
+        .tile-arrow {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #7F543D;          /* coastal retreat warm brown */
+            transition: all 0.25s ease;
+        }
+
+        .review-tile:hover .tile-arrow {
+            color: #6C6E36;
+            transform: translateX(5px) scale(1.05);
+        }
+
+        /* footer note with subtle palette link */
+        .footer-note {
+            margin-top: 2.5rem;
+            text-align: center;
+            font-size: 0.72rem;
+            color: #5f6c6b;
+            font-weight: 500;
+            border-top: 1px solid #e2eae8;
+            padding-top: 1.5rem;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-note strong {
+            color: #675647;
+            font-weight: 700;
+        }
+
+        /* responsive fine-tuning */
+        @media (max-width: 520px) {
+            .suzuki-card {
+                border-radius: 1.5rem;
+            }
+            .brand-header {
+                padding: 1.5rem 1.5rem 0.6rem;
+            }
+            .logo-text {
+                font-size: 1.6rem;
+            }
+            .main-content {
+                padding: 1.5rem 1.5rem 2rem;
+            }
+            .reviews-headline h1 {
+                font-size: 1.7rem;
+            }
+            .tile-name {
+                font-size: 1.2rem;
+            }
+            .review-tile {
+                padding: 0.9rem 1.3rem;
+            }
+            .splash-logo-text {
+                font-size: 1.9rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .logo-text {
+                font-size: 1.4rem;
+            }
+            .tile-name {
+                font-size: 1.1rem;
+            }
+            .splash-logo-text {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SPLASH SCREEN (FIRST PAGE - 100% UNCHANGED, as you demanded) -->
+<div class="splash-screen" id="splashScreen">
+    <div class="splash-content">
+        <div class="splash-logo-text">SUZUKI POTOHAR MOTORS</div>
+        <div class="splash-sub">DRIVEN BY EXCELLENCE</div>
+    </div>
+</div>
+
+<!-- MAIN CARD (SECOND PAGE - refreshed with new color palette, bold brand, modern tiles) -->
+<div class="suzuki-card" id="mainCard">
+    <div class="brand-header">
+        <!-- exact same text, now extra bold -->
+        <div class="logo-text">SUZUKI POTOHAR MOTORS</div>
+        <div class="tagline">DRIVEN BY EXCELLENCE</div>
+    </div>
+
+    <div class="main-content">
+        <div class="reviews-headline">
+            <h1>PUT YOUR REVIEWS</h1>
+            <div class="sub">YOUR FEEDBACK FUELS US</div>
+        </div>
+
+        <!-- FIVE TILES (no icons, pure typography) -->
+        <div class="tiles-grid" id="reviewsGrid">
+            <div class="review-tile" data-link="google_link_placeholder">
+                <span class="tile-name">Google</span>
+                <span class="tile-arrow">→</span>
+            </div>
+            <div class="review-tile" data-link="youtube_link_placeholder">
+                <span class="tile-name">Youtube</span>
+                <span class="tile-arrow">→</span>
+            </div>
+            <div class="review-tile" data-link="facebook_link_placeholder">
+                <span class="tile-name">Facebook</span>
+                <span class="tile-arrow">→</span>
+            </div>
+            <div class="review-tile" data-link="instagram_link_placeholder">
+                <span class="tile-name">Instagram</span>
+                <span class="tile-arrow">→</span>
+            </div>
+            <div class="review-tile" data-link="tiktok_link_placeholder">
+                <span class="tile-name">TikTok</span>
+                <span class="tile-arrow">→</span>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            Share your real experience • <strong>SPM family</strong> listens
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ========== SPLASH SCREEN LOGIC (unchanged timing) ==========
+        const splash = document.getElementById('splashScreen');
+        const mainCard = document.getElementById('mainCard');
+        
+        setTimeout(() => {
+            if (splash) {
+                splash.classList.add('splash-fadeout');
+                setTimeout(() => {
+                    if (splash) splash.style.display = 'none';
+                }, 700);
+            }
+            if (mainCard) {
+                mainCard.classList.add('visible');
+            }
+        }, 2000);  // 2 seconds splash display
+
+        // ========== YOUR EXACT REVIEW LINKS (fully integrated) ==========
+        const tiles = document.querySelectorAll('.review-tile');
+        if (tiles.length === 5) {
+            // GOOGLE review link (exact from your message)
+            tiles[0].setAttribute('data-link', 'https://www.google.com/search?q=suzuki+potohar+motors&rlz=1C1GCEA_enPK1138PK1139&oq=suzuki+potohar+motors&gs_lcrp=EgZjaHJvbWUqCggAEAAY4wIYgAQyCggAEAAY4wIYgAQyDQgBEC4YrwEYxwEYgAQyBwgCEAAYgAQyBwgDEAAYgAQyCAgEEAAYFhgeMggIBRAAGBYYHjIICAYQABgWGB4yCAgHEAAYFhgeMggICBAAGBYYHjIICAkQABgWGB7SAQk2NjM1ajBqMTWoAgiwAgHxBU0IZdnCoTZw&sourceid=chrome&ie=UTF-8&zx=1779115874462#lrd=0x39205dbaf5657ef5:0xa20f7add3c305959,3,,,,');
+
+            // YOUTUBE channel link
+            tiles[1].setAttribute('data-link', 'https://www.youtube.com/@SuzukiPotoharMotors');
+
+            // FACEBOOK link (exact redirect URL you provided)
+            tiles[2].setAttribute('data-link', 'https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqay0tZllId3ZfNnRsV0l5QmZoUlA2eXg5bGs5QXxBQ3Jtc0tuSVZRM2RDYzQ1X1VmODFjNDhscmV2UXBmMlB2X2tFeUlBeUh4TDI3aFg4anpYeW5JVW4tYnhKZ045OTNaVWoyZTNxWnlCZVgwa3QwTE5Sb3hqb2FBc3RvOW5GSmtGVGFSYjVSXzd0VlQ0MEhadHpjVQ&q=https%3A%2F%2Fwww.facebook.com%2Fshare%2F17MJDCnwUc%2F%3Fmibextid%3DwwXIfr');
+
+            // INSTAGRAM link (exact redirect + instagram profile)
+            tiles[3].setAttribute('data-link', 'https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqbHBkdXJMemVMRHlndnZEZFZSb0w1TDlQblMzUXxBQ3Jtc0ttWjByQjI1NXlBQi1iRDB2Tzh3QVIxZDM3ckZaaXNpU3ZEQXNkX2RDNmNkemRIemxtQm44TkRadlV1Q0VvWFFiVG9hTUtmZHhEZW1fMDRqOVc1UG50YkI0LVNQMFozelJmSUphOC14RWVPdUNPOXJXOA&q=https%3A%2F%2Fwww.instagram.com%2Fsuzukipotoharmotors%3Figsh%3DZjl0cWQ5Y3J5aXJ6%26utm_source%3Dqr');
+
+            // TIK TOK profile link
+            tiles[4].setAttribute('data-link', 'https://www.tiktok.com/@suzukipotoharmotors');
+        }
+
+        // modern click handler with smooth redirection
+        tiles.forEach(tile => {
+            tile.addEventListener('click', (e) => {
+                e.stopPropagation();
+                let link = tile.getAttribute('data-link');
+                if (link && link !== 'google_link_placeholder' && link !== 'youtube_link_placeholder' && 
+                    link !== 'facebook_link_placeholder' && link !== 'instagram_link_placeholder' && 
+                    link !== 'tiktok_link_placeholder') {
+                    window.open(link, '_blank');
+                } else {
+                    console.warn('Review link missing for:', tile.innerText);
+                    alert('✅ All review links are pre‑configured! If you see this, please double‑check the script.');
+                }
+            });
+
+            // optional haptic for mobile
+            if ('vibrate' in navigator) {
+                tile.addEventListener('touchstart', () => {
+                    navigator.vibrate(8);
+                }, { passive: true });
+            }
+        });
+
+        console.log('🎉 Suzuki Potohar Motors | New-gen palette + bold identity + staggered tiles active');
+    })();
+</script>
+<!-- 
+    FINAL NOTES (as per your instructions):
+    ✅ FIRST PAGE (splash) – untouched, same colors, animation, text.
+    ✅ SECOND PAGE – "SUZUKI POTOHAR MOTORS" is now **bolder** (font-weight 800).
+    ✅ "DRIVEN BY EXCELLENCE" stays identical.
+    ✅ Tiles have fresh staggered entrance, lift/glow hover, using Coastal Retreat & Benjamin Moore colors.
+    ✅ Your exact Google, YouTube, Facebook, Instagram, TikTok review links are already inserted.
+    ✅ Font style uses modern 'Poppins' & 'Inter' family with improved readability.
+-->
+</body>
+</html>
